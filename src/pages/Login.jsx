@@ -27,13 +27,21 @@ export default function Login() {
       console.log("datos ingresados correctamente");
       if(rucValue.trim().length === 11){
         if (rucValue !== "20515290142" && passValue !== "123") {
-          loginMessage.innerText = `intentos disponibles ${attemps}`;
-          decreaseAttemps();
+          if(attemps === 0){
+            loginMessage.innerText = `Ha superado la cantidad de intentos espere 10 s`;
+            setTimeout(()=>{
+              setAttemps(3);
+            },10000);
+          }else{
+            loginMessage.innerText = `intentos disponibles ${attemps}`;
+            decreaseAttemps();
+          }
         }else{
-          loginMessage.innerText = "ACCEDIO"
+          loginMessage.innerText = "ACCEDIO";
         }
       }else{
-        window.alert("El ruc debe contener 11 caracteres");
+        loginMessage.innerText = "El ruc debe contener 11 caracteres";
+        
       }
       
     } else {
@@ -42,37 +50,36 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center h-screen bg-gradient-to-r  from-[#26306A] via-[#2B657F] to-[#2F9B86] overscroll-contain overflow-y-visible">
+    <div className="flex justify-center  h-screen bg-gradient-to-r  from-[#26306A] via-[#2B657F] to-[#2F9B86] overscroll-contain overflow-y-visible">
     
-      <div className="w-screen">
-        <div className="flex items-center justify-center h-screen w-screen">
-          <div className="flex justify-center p-4 backdrop-blur-sm bg-black/30 rounded-2xl">
-            <div className="p-2 px-8 pt-8 bg-white h-3/4 rounded-2xl">
-              <div className="flex justify-center h-16 w-22 ">
+      <div className="flex items-center justify-center">
+        <div className="flex justify-center backdrop-blur-sm bg-black/30 p-4 rounded-2xl">
+          <div className="bg-white py-8 px-4 rounded-2xl">
+            <div className="flex flex-col justify-center ">
+              <div className="flex justify-center h-32 w-[100%] " >
                 <img src={logo} alt="Logo" />
               </div>
-              <h1 className="pt-4 font-sans text-4xl font-extrabold text-center ">
+              <h1 className="pt-4 font-sans text-4xl font-bold text-center">
                 LOGIN
               </h1>
-              <form className="grid justify-center" onSubmit={HandleSubmit}>
-                <div className="pt-8">
-                  <Input color="teal" label="RUC" type="number" id="rucValue"  required/>
+              <form  className="flex flex-col justify-center" onSubmit={HandleSubmit}>
+                <div className="p-2">
+                  <Input color="teal" label="RUC" type="number" id="rucValue"/>
                 </div>
-                <div className="pt-8 ">
+                <div className="p-2">
                   <Input
                     color="teal"
                     label="CONTRASEÑA"
                     type="password"
                     id="passValue"
-                    required
                   />
                 </div>
                 <span className="text-right text-[#2F9B86]">
                   Recuperar Acceso
                 </span>
-                <div className="grid justify-center pt-8 pb-7">
+                <div className="flex justify-center p-2">
                   <Button
-                    className="w-72 bg-[#2F9B86]"
+                    className="w-[80%] bg-[#2F9B86]"
                     value="INGRESAR"
                     type="submit"
                     id="btnIngresar"
@@ -81,7 +88,7 @@ export default function Login() {
                   </Button>
                 </div>
                 <div
-                  className="grid justify-center py-3 mb-3 text-red-700"
+                  className="flex justify-center p-3 m-2 text-red-700"
                   id="loginMessage"
                 ></div>
               </form>
